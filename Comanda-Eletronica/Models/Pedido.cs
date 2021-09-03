@@ -1,6 +1,6 @@
 ﻿namespace Comanda_Eletronica.Models
 {
-    public class Order
+    public class Pedido
     {
         public int Id { get; set; }
         public string ProductName { get; set; }

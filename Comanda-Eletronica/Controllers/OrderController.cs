@@ -1,6 +1,8 @@
 ﻿using Comanda_Eletronica.Data;
+using Comanda_Eletronica.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Comanda_Eletronica;
 using System.Linq;
 
 namespace Comanda_Eletronica.Controllers
@@ -9,20 +11,32 @@ namespace Comanda_Eletronica.Controllers
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
     {
-        private ComandaEletronicaContext Context;
+        private IOrderService Service;
 
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(ILogger<OrderController> logger, ComandaEletronicaContext _context)
+        public OrderController(ILogger<OrderController> logger, IOrderService service)
         {
             _logger = logger;
-            Context = _context;
+            Service = service;
         }
 
         [HttpGet]
-        public IActionResult GetOrders()
+        public IActionResult GetProducts()
         {
-            return Ok(Context.Orders.Any());
+            return Ok(Service.GetProducts());
+        }
+
+        [HttpGet]
+        public IActionResult GetMesas()
+        {
+            return Ok(Service.GetMesas());
+        }
+
+        [HttpGet]
+        public IActionResult GetProdutos()
+        {
+            return Ok(Service.GetProdutos());
         }
     }
 }

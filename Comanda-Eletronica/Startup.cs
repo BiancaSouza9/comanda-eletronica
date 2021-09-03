@@ -1,10 +1,12 @@
 using Comanda_Eletronica.Data;
+using Comanda_Eletronica.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services.Comanda_Eletronica;
 
 namespace Comanda_Eletronica
 {
@@ -29,6 +31,7 @@ namespace Comanda_Eletronica
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>
