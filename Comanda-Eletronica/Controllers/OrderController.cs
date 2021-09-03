@@ -7,20 +7,20 @@ namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class PedidoController : ControllerBase
+    public class OrderController : ControllerBase
     {
         private ComandaEletronicaContext Context;
 
-        private readonly ILogger<PedidoController> _logger;
+        private readonly ILogger<OrderController> _logger;
 
-        public PedidoController(ILogger<PedidoController> logger, ComandaEletronicaContext _context)
+        public OrderController(ILogger<OrderController> logger, ComandaEletronicaContext _context)
         {
             _logger = logger;
             Context = _context;
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetOrders()
         {
             return Ok(Context.Orders.Any());
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Comanda_Eletronica.Data
 {
@@ -14,6 +10,6 @@ namespace Comanda_Eletronica.Data
         {
         }
 
-        public DbSet<Comanda_Eletronica.Models.Product> Products { get; set; }
+        public DbSet<Comanda_Eletronica.Models.Product> Orders { get; set; }
     }
 }
