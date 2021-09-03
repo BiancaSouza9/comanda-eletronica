@@ -22,11 +22,11 @@ namespace Services.Comanda_Eletronica
         }
         public List<Produto> GetProdutos()
         {
-            return Context.Produtos.Where(p => p.Nome_Produto == "Pizza").ToList();
+            return Context.Produto.Where(p => p.Nome_Produto == "Pizza").ToList();
         }
         public List<Mesa> GetMesas()
         {
-            return Context.Mesas.Where(p => p.Status_Mesa == 0).ToList();
+            return Context.Mesa.Where(p => p.Status_Mesa == 0).ToList();
         }
     }
 }

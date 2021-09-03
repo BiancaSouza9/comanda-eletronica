@@ -11,7 +11,7 @@ namespace Comanda_Eletronica.Data
         }
 
         public DbSet<Comanda_Eletronica.Models.Product> Products { get; set; }
-        public DbSet<Comanda_Eletronica.Models.Produto> Produtos { get; set; }
-        public DbSet<Comanda_Eletronica.Models.Mesa> Mesas { get; set; }
+        public DbSet<Comanda_Eletronica.Models.Produto> Produto { get; set; }
+        public DbSet<Comanda_Eletronica.Models.Mesa> Mesa { get; set; }
     }
 }
