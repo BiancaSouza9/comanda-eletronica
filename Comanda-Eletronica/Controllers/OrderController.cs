@@ -1,9 +1,8 @@
-﻿using Comanda_Eletronica.Data;
-using Comanda_Eletronica.Services.Interfaces;
+﻿using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Services.Comanda_Eletronica;
-using System.Linq;
+using Comanda_Eletronica.Entities.Enums;
+using Comanda_Eletronica.Models;
 
 namespace Comanda_Eletronica.Controllers
 {
@@ -11,32 +10,33 @@ namespace Comanda_Eletronica.Controllers
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
     {
-        private IOrderService Service;
+        private IOrderRepository Repository;
 
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(ILogger<OrderController> logger, IOrderService service)
+        public OrderController(ILogger<OrderController> logger, IOrderRepository repository)
         {
             _logger = logger;
-            Service = service;
+            Repository = repository;
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
-        {
-            return Ok(Service.GetProducts());
+        public IActionResult GetMesas(int id = 1)
+        {   
+            return Ok(Repository.GetMesas(id));
         }
 
         [HttpGet]
-        public IActionResult GetMesas()
+        public IActionResult GetProdutos(int id = 1)
         {
-            return Ok(Service.GetMesas());
+            return Ok(Repository.GetProdutos(id));
         }
 
-        [HttpGet]
-        public IActionResult GetProdutos()
+        [HttpPost]
+        public IActionResult SetMesa([FromBody] MesaRequest mesa)
         {
-            return Ok(Service.GetProdutos());
+            Repository.SetMesa(mesa.Id, mesa.Status_Mesa);
+            return Ok();
         }
-    }
+    }    
 }

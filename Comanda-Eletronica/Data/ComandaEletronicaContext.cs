@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Comanda_Eletronica.Entities;
 
 namespace Comanda_Eletronica.Data
 {
@@ -10,8 +11,7 @@ namespace Comanda_Eletronica.Data
         {
         }
 
-        public DbSet<Comanda_Eletronica.Models.Product> Products { get; set; }
-        public DbSet<Comanda_Eletronica.Models.Produto> Produto { get; set; }
-        public DbSet<Comanda_Eletronica.Models.Mesa> Mesa { get; set; }
+        public DbSet<Produto> Produto { get; set; }
+        public DbSet<Mesa> Mesa { get; set; }
     }
 }

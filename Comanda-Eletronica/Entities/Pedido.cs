@@ -1,4 +1,4 @@
-﻿namespace Comanda_Eletronica.Models
+﻿namespace Comanda_Eletronica.Entities
 {
     public class Pedido
     {
