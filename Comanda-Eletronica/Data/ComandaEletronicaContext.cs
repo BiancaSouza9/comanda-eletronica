@@ -13,5 +13,6 @@ namespace Comanda_Eletronica.Data
 
         public DbSet<Produto> Produto { get; set; }
         public DbSet<Mesa> Mesa { get; set; }
+        public DbSet<Funcionario> funcionario { get; set; }
     }
 }

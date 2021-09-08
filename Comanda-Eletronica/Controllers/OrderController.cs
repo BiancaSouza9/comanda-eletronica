@@ -1,8 +1,7 @@
-﻿using Comanda_Eletronica.Repositories.Interfaces;
+﻿using Comanda_Eletronica.Models;
+using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Comanda_Eletronica.Entities.Enums;
-using Comanda_Eletronica.Models;
 
 namespace Comanda_Eletronica.Controllers
 {
@@ -21,15 +20,17 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMesas(int id = 1)
-        {   
-            return Ok(Repository.GetMesas(id));
+        public IActionResult GetMesas([FromBody] MesaRequest mesa)
+        {
+            Repository.GetMesas(mesa.Id);
+            return Ok();
         }
 
         [HttpGet]
-        public IActionResult GetProdutos(int id = 1)
+        public IActionResult GetProdutos([FromBody] ProdutoRequest produto)
         {
-            return Ok(Repository.GetProdutos(id));
+            Repository.GetProdutos(produto.Id);
+            return Ok();
         }
 
         [HttpPost]

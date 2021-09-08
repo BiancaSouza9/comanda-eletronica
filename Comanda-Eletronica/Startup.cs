@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository.Comanda_Eletronica;
+using Comanda_Eletronica.Repositories;
 
 namespace Comanda_Eletronica
 {
@@ -32,6 +32,7 @@ namespace Comanda_Eletronica
         {
             services.AddControllers();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>

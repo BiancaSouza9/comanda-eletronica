@@ -1,14 +1,13 @@
 ﻿using Comanda_Eletronica.Data;
-using Comanda_Eletronica.Models;
+using Comanda_Eletronica.Entities;
+using Comanda_Eletronica.Entities.Enums;
 using Comanda_Eletronica.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Comanda_Eletronica.Entities.Enums;
-using Comanda_Eletronica.Entities;
 
 
-namespace Repository.Comanda_Eletronica
+namespace Comanda_Eletronica.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
