@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Comanda_Eletronica.Entities.Enums
 {
-    public enum MesaStatus : int
+    public enum PedidoStatus : int
     {
-        Livre = 1,
-        Ocupado = 2
+        Aberto = 1,
+        Preparando = 2,
+        Concluido = 3
     }
 }

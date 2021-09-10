@@ -1,7 +1,9 @@
 ﻿using Comanda_Eletronica.Data;
 using Comanda_Eletronica.Entities;
 using Comanda_Eletronica.Entities.Enums;
+using Comanda_Eletronica.Models;
 using Comanda_Eletronica.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,42 @@ namespace Comanda_Eletronica.Repositories
         }
         public List<Mesa> GetMesas(int id)
         {
-            return Context.Mesa.Where(p => p.Id == id).ToList();
+            return Context.Mesa.Where(p => p.id_mesa_pk == id).ToList();
+        }
+        public List<Pedido> GetPedido(int id)
+        {
+            return Context.Pedido.Where(p => p.id_pedido_pk == id).ToList();
         }
         public void SetMesa(int id, string status_mesa)
         {
-            Context.Mesa.Find(id).Status_Mesa = Enum.Parse<MesaStatus>(status_mesa);
+            Context.Mesa.Find(id).id_status_fk = Enum.Parse<MesaStatus>(status_mesa);
             Context.SaveChanges();
         }
+
+        public void AddPedido(PedidoRequest pedidoRequest)
+        {
+            var pedido = new Pedido()
+            {
+                id_mesa_fk = pedidoRequest.IdMesa, 
+                id_funcionario_fk = pedidoRequest.IdFuncionario, 
+                id_status_ped_fk = Enum.Parse<PedidoStatus>(pedidoRequest.StatusPedido), 
+                data = pedidoRequest.Data
+            };
+
+            Context.Pedido.Add(pedido);
+
+            var itens = pedidoRequest.Itens.Select(i => 
+                new Item() 
+                {  
+                    id_produto_fk = i.IdProduto, 
+                    quantidade = i.Quantidade, 
+                    valor = i.Valor
+                });
+
+            Context.Item.AddRange(itens);
+
+            Context.SaveChanges();
+        }
+
     }
 }

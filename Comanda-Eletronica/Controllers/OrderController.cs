@@ -2,6 +2,7 @@
 using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Comanda_Eletronica.Controllers
 {
@@ -20,24 +21,38 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMesas([FromBody] MesaRequest mesa)
+        public IActionResult GetMesas([FromQuery] MesaRequest mesa)
         {
-            Repository.GetMesas(mesa.Id);
+            Repository.GetMesas(mesa.id_mesa_pk);
             return Ok();
         }
 
         [HttpGet]
-        public IActionResult GetProdutos([FromBody] ProdutoRequest produto)
+        public IActionResult GetProdutos([FromQuery] ProdutoRequest produto)
         {
             Repository.GetProdutos(produto.Id);
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult SetMesa([FromBody] MesaRequest mesa)
+        [HttpGet]
+        public IActionResult GetPedido([FromQuery] PedidoRequest pedido)
         {
-            Repository.SetMesa(mesa.Id, mesa.Status_Mesa);
+            Repository.GetPedido(pedido.IdPedido);
             return Ok();
         }
-    }    
+
+        [HttpPost]
+        public IActionResult SetMesa([FromQuery] MesaRequest mesa)
+        {
+            Repository.SetMesa(mesa.id_mesa_pk, mesa.id_status_fk);
+            return Ok("Status Alterado com Sucesso");
+        }
+
+        [HttpPost]
+        public IActionResult AddPedido([FromBody] PedidoRequest pedido)
+        {
+            Repository.AddPedido(pedido);
+            return Ok("Pedido Adicionado com Sucesso");
+        }
+    }
 }

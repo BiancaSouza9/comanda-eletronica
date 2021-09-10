@@ -18,7 +18,7 @@ namespace Comanda_Eletronica.Repositories
         }
         public Funcionario GetLogin(string usuario, string senha)
         {
-            return Context.funcionario.Where(p => p.usuario.Equals (usuario) && p.senha.Equals(senha)).FirstOrDefault();
+            return Context.Funcionario.Where(p => p.usuario.Equals (usuario) && p.senha.Equals(senha)).FirstOrDefault();
         }
     }
 }

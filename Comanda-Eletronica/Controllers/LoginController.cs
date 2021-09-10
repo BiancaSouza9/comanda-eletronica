@@ -30,7 +30,7 @@ namespace Comanda_Eletronica.Controllers
             }
             else
             {
-                return StatusCode(404, "Usuário ou Senha inválidos");
+                return StatusCode(401, "Usuário ou Senha inválidos");
             }
         }
     }

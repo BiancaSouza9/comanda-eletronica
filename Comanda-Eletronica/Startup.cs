@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Comanda_Eletronica.Repositories;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Comanda_Eletronica
 {
@@ -30,9 +31,10 @@ namespace Comanda_Eletronica
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen();
             services.AddControllers();
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();            
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>
@@ -53,6 +55,8 @@ namespace Comanda_Eletronica
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {
