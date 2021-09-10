@@ -22,7 +22,7 @@ namespace Comanda_Eletronica.Controllers
         [HttpGet]
         public IActionResult GetLogin([FromQuery] LoginRequest funcionario)
         {
-            var retorno = Repository.GetLogin(funcionario.usuario, funcionario.senha);
+            var retorno = Repository.GetLogin(funcionario.Usuario, funcionario.Senha);
 
             if (retorno != null)
             {

@@ -7,6 +7,6 @@ namespace Comanda_Eletronica.Models
 {
     public class ProdutoRequest
     {
-        public int Id { get; set; }
+        public int IdProduto { get; set; }
     }
 }

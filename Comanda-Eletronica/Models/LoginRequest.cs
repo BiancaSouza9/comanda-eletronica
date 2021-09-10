@@ -8,10 +8,10 @@ namespace Comanda_Eletronica.Models
 {
     public class LoginRequest
     {
-        public int id_funcionario_pk { get; set; }
-        public string nome { get; set; }
-        public string usuario { get; set; }
-        public string senha { get; set; }
-        public int id_modulo_fk { get; set; }
+        public int IdFuncionario { get; set; }
+        public string Nome { get; set; }
+        public string Usuario { get; set; }
+        public string Senha { get; set; }
+        public int IdModulo { get; set; }
     }
 }

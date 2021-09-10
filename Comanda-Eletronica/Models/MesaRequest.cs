@@ -8,8 +8,8 @@ namespace Comanda_Eletronica.Models
 {
     public class MesaRequest
     {
-        public int id_mesa_pk { get; set; }
-        public string id_status_fk { get; set; }
-        public int pessoas { get; set; }
+        public int IdMesa { get; set; }
+        public string IdStatus { get; set; }
+        public int Pessoas { get; set; }
     }
 }

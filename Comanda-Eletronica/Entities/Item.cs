@@ -14,5 +14,6 @@ namespace Comanda_Eletronica.Entities
         public int id_produto_fk { get; set; }
         public int quantidade { get; set; }
         public decimal valor { get; set; }
+        public Pedido pedido { get; set; }
     }
 }

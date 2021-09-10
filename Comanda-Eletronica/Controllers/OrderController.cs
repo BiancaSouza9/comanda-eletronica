@@ -21,30 +21,37 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMesas([FromQuery] MesaRequest mesa)
+        public IActionResult GetProdutos([FromQuery] ProdutoRequest produto)
         {
-            Repository.GetMesas(mesa.id_mesa_pk);
+            Repository.GetProdutos(produto.IdProduto);
             return Ok();
         }
 
         [HttpGet]
-        public IActionResult GetProdutos([FromQuery] ProdutoRequest produto)
+        public IActionResult GetMesas([FromQuery] MesaRequest mesa)
         {
-            Repository.GetProdutos(produto.Id);
-            return Ok();
+            Repository.GetMesas(mesa.IdMesa);
+            return Ok("Mesa: " + mesa.IdMesa);
+        }
+
+        [HttpPost]
+        public IActionResult SetMesa([FromQuery] MesaRequest mesa)
+        {
+            Repository.SetMesa(mesa.IdMesa, mesa.IdStatus);
+            return Ok("Status Alterado com Sucesso");
         }
 
         [HttpGet]
         public IActionResult GetPedido([FromQuery] PedidoRequest pedido)
         {
             Repository.GetPedido(pedido.IdPedido);
-            return Ok();
+            return Ok("Pedido: " + pedido.IdPedido);
         }
 
         [HttpPost]
-        public IActionResult SetMesa([FromQuery] MesaRequest mesa)
+        public IActionResult SetPedidoStatus([FromQuery] PedidoRequest pedido)
         {
-            Repository.SetMesa(mesa.id_mesa_pk, mesa.id_status_fk);
+            Repository.SetPedidoStatus(pedido.IdPedido, pedido.StatusPedido) ;
             return Ok("Status Alterado com Sucesso");
         }
 

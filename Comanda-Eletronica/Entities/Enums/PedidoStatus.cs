@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Comanda_Eletronica.Entities.Enums
 {
-    public enum PedidoStatus : int
+    public enum PedidoStatus : byte
     {
         Aberto = 1,
         Preparando = 2,

@@ -12,6 +12,14 @@ namespace Comanda_Eletronica.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Item>()
+                .HasOne(p => p.pedido)
+                .WithMany(b => b.itens)
+                .HasForeignKey(p => p.id_pedido_fk);
+        }
+
         public DbSet<Produto> Produto { get; set; }
         public DbSet<Mesa> Mesa { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }

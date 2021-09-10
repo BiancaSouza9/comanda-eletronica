@@ -1,6 +1,7 @@
 ﻿using System;
 using Comanda_Eletronica.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Comanda_Eletronica.Entities
 {
@@ -8,10 +9,10 @@ namespace Comanda_Eletronica.Entities
     {
         [Key]
         public int id_pedido_pk { get; set; }
-
         public int id_mesa_fk { get; set; }
         public int id_funcionario_fk { get; set; }
         public PedidoStatus id_status_ped_fk { get; set; }
         public DateTime data { get; set; }
+        public List<Item> itens { get; set; }
     }
 }
