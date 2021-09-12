@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Comanda_Eletronica.Repositories;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Comanda_Eletronica
 {
@@ -31,7 +31,11 @@ namespace Comanda_Eletronica
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Comanda Eletronica", Version = PlatformServices.Default.Application.ApplicationVersion });            
+            });
+
             services.AddControllers();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();            
@@ -57,6 +61,11 @@ namespace Comanda_Eletronica
             app.UseAuthorization();
 
             app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Comanda Eletronica");
+            });
 
             app.UseEndpoints(endpoints =>
             {

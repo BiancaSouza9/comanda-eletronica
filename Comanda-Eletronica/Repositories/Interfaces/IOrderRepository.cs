@@ -8,11 +8,11 @@ namespace Comanda_Eletronica.Repositories.Interfaces
 {
     public interface IOrderRepository
     {
-        List<Produto> GetProdutos(int id);
-        List<Mesa> GetMesas(int id);
-        void SetMesa(int id, string status_mesa);
-        List<Pedido> GetPedido(int id);
-        void SetPedidoStatus(int id, string status_pedido);
-        void AddPedido(PedidoRequest pedidoRequest);
+        List<Produto> BuscaProdutos(int id);
+        List<Mesa> BuscaMesasLivres();
+        void AlteraStatusMesa(int id, string status_mesa);
+        List<Pedido> BuscaPedido(int id);
+        void AlteraStatusPedido(int id, string status_pedido);
+        void AdicionaPedido(PedidoRequest pedidoRequest);
     }
 }

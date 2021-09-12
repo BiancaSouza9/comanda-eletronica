@@ -18,34 +18,34 @@ namespace Comanda_Eletronica.Repositories
             Context = context;
         }
 
-        public List<Produto> GetProdutos(int id)
+        public List<Produto> BuscaProdutos(int id)
         {
             return Context.Produto.Where(p => p.Id == id).ToList();
         }
 
-        public List<Mesa> GetMesas(int id)
+        public List<Mesa> BuscaMesasLivres()
         {
-            return Context.Mesa.Where(p => p.id_mesa_pk == id).ToList();
+            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Livre)).ToList();
         }
 
-        public void SetMesa(int id, string status_mesa)
+        public void AlteraStatusMesa(int id, string status_mesa)
         {
             Context.Mesa.Find(id).id_status_fk = Enum.Parse<MesaStatus>(status_mesa);
             Context.SaveChanges();
         }
 
-        public List<Pedido> GetPedido(int id)
+        public List<Pedido> BuscaPedido(int id)
         {
             return Context.Pedido.Where(p => p.id_pedido_pk == id).ToList();
         }
 
-        public void SetPedidoStatus(int id, string status_pedido)
+        public void AlteraStatusPedido(int id, string status_pedido)
         {
             Context.Pedido.Find(id).id_status_ped_fk = Enum.Parse<PedidoStatus>(status_pedido);
             Context.SaveChanges();
         }
 
-        public void AddPedido(PedidoRequest pedidoRequest)
+        public void AdicionaPedido(PedidoRequest pedidoRequest)
         {
             var pedido = new Pedido()
             {

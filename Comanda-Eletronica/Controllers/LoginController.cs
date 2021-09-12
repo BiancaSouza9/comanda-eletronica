@@ -19,8 +19,8 @@ namespace Comanda_Eletronica.Controllers
             Repository = repository;
         }
 
-        [HttpGet]
-        public IActionResult GetLogin([FromQuery] LoginRequest funcionario)
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginRequest funcionario)
         {
             var retorno = Repository.GetLogin(funcionario.Usuario, funcionario.Senha);
 

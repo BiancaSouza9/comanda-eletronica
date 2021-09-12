@@ -7,6 +7,7 @@ using System;
 namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
+    //[Route("[controller]/[action]")]
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
     {
@@ -21,44 +22,43 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProdutos([FromQuery] ProdutoRequest produto)
+        public IActionResult BuscaProdutos([FromQuery] ProdutoRequest produto)
         {
-            Repository.GetProdutos(produto.IdProduto);
+            Repository.BuscaProdutos(produto.IdProduto);
             return Ok();
         }
 
         [HttpGet]
-        public IActionResult GetMesas([FromQuery] MesaRequest mesa)
+        public IActionResult BuscaMesasLivres()
         {
-            Repository.GetMesas(mesa.IdMesa);
-            return Ok("Mesa: " + mesa.IdMesa);
+            return Ok (Repository.BuscaMesasLivres());
         }
 
         [HttpPost]
-        public IActionResult SetMesa([FromQuery] MesaRequest mesa)
+        public IActionResult AlteraStatusMesa([FromQuery] MesaRequest mesa)
         {
-            Repository.SetMesa(mesa.IdMesa, mesa.IdStatus);
+            Repository.AlteraStatusMesa(mesa.IdMesa, mesa.IdStatus);
             return Ok("Status Alterado com Sucesso");
         }
 
         [HttpGet]
-        public IActionResult GetPedido([FromQuery] PedidoRequest pedido)
+        public IActionResult BuscaPedido([FromBody] PedidoRequest pedido)
         {
-            Repository.GetPedido(pedido.IdPedido);
+            Repository.BuscaPedido(pedido.IdPedido);
             return Ok("Pedido: " + pedido.IdPedido);
         }
 
         [HttpPost]
-        public IActionResult SetPedidoStatus([FromQuery] PedidoRequest pedido)
+        public IActionResult AlteraStatusPedido([FromQuery] PedidoRequest pedido)
         {
-            Repository.SetPedidoStatus(pedido.IdPedido, pedido.StatusPedido) ;
+            Repository.AlteraStatusPedido(pedido.IdPedido, pedido.StatusPedido) ;
             return Ok("Status Alterado com Sucesso");
         }
 
         [HttpPost]
-        public IActionResult AddPedido([FromBody] PedidoRequest pedido)
+        public IActionResult AdicionaPedido([FromBody] PedidoRequest pedido)
         {
-            Repository.AddPedido(pedido);
+            Repository.AdicionaPedido(pedido);
             return Ok("Pedido Adicionado com Sucesso");
         }
     }
