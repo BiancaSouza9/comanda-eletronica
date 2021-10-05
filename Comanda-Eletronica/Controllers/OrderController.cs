@@ -22,10 +22,9 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpGet]
-        public IActionResult BuscaProdutos([FromQuery] ProdutoRequest produto)
+        public IActionResult BuscaProduto([FromBody] ProdutoRequest produto)
         {
-            Repository.BuscaProdutos(produto.IdProduto);
-            return Ok();
+            return Ok(Repository.BuscaProduto(produto.Categoria));
         }
 
         [HttpGet]
@@ -33,26 +32,23 @@ namespace Comanda_Eletronica.Controllers
         {
             return Ok (Repository.BuscaMesasLivres());
         }
+        public IActionResult BuscaMesasOcupadas()
+        {
+            return Ok(Repository.BuscaMesasOcupadas());
+        }
 
         [HttpPost]
-        public IActionResult AlteraStatusMesa([FromQuery] MesaRequest mesa)
+        public IActionResult AlteraStatusMesa([FromBody] MesaRequest mesa)
         {
-            Repository.AlteraStatusMesa(mesa.IdMesa, mesa.IdStatus);
+            Repository.AlteraStatusMesa(mesa.IdMesa);
             return Ok("Status Alterado com Sucesso");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult BuscaPedido([FromBody] PedidoRequest pedido)
         {
-            Repository.BuscaPedido(pedido.IdPedido);
-            return Ok("Pedido: " + pedido.IdPedido);
-        }
-
-        [HttpPost]
-        public IActionResult AlteraStatusPedido([FromQuery] PedidoRequest pedido)
-        {
-            Repository.AlteraStatusPedido(pedido.IdPedido, pedido.StatusPedido) ;
-            return Ok("Status Alterado com Sucesso");
+            var retorno = Repository.BuscaPedido(pedido.IdMesa);
+            return Ok(retorno);
         }
 
         [HttpPost]
@@ -60,6 +56,27 @@ namespace Comanda_Eletronica.Controllers
         {
             Repository.AdicionaPedido(pedido);
             return Ok("Pedido Adicionado com Sucesso");
+        }
+
+        [HttpPost]
+        public IActionResult AdicionaItem([FromBody] ItemRequest item)
+        {
+            Repository.AdicionaItem(item, item.IdPedido);
+            return Ok("Item Adicionado com Sucesso");
+        }
+
+        [HttpPost]
+        public IActionResult EnviaPedido([FromBody] PedidoRequest pedido)
+        {
+            Repository.EnviaPedido(pedido.IdPedido);
+            return Ok("Pedido Enviado com Sucesso");
+        }
+
+        [HttpPost]
+        public IActionResult EncerraPedido([FromBody] PedidoRequest pedido)
+        {
+            Repository.EncerraPedido(pedido.IdPedido);
+            return Ok("Pedido Encerrado com Sucesso");
         }
     }
 }

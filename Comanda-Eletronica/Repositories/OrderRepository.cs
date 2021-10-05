@@ -18,9 +18,9 @@ namespace Comanda_Eletronica.Repositories
             Context = context;
         }
 
-        public List<Produto> BuscaProdutos(int id)
+        public List<Produto> BuscaProduto(string categoria)
         {
-            return Context.Produto.Where(p => p.Id == id).ToList();
+            return Context.Produto.Where(p => p.id_categoria_fk == Enum.Parse <Categoria> (categoria)).ToList();
         }
 
         public List<Mesa> BuscaMesasLivres()
@@ -28,30 +28,28 @@ namespace Comanda_Eletronica.Repositories
             return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Livre)).ToList();
         }
 
-        public void AlteraStatusMesa(int id, string status_mesa)
+        public List<Mesa> BuscaMesasOcupadas()
         {
-            Context.Mesa.Find(id).id_status_fk = Enum.Parse<MesaStatus>(status_mesa);
+            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Ocupado)).ToList();
+        }
+
+        public void AlteraStatusMesa(int id)
+        {
+            Context.Mesa.Find(id).id_status_fk = Enum.Parse<MesaStatus>("Ocupado");
             Context.SaveChanges();
         }
 
-        public List<Pedido> BuscaPedido(int id)
+        public Pedido BuscaPedido(int mesa)
         {
-            return Context.Pedido.Where(p => p.id_pedido_pk == id).ToList();
+            return Context.Pedido.Where(p => p.id_mesa_fk == mesa && (p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Aberto") || p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Preparando"))).FirstOrDefault();
         }
-
-        public void AlteraStatusPedido(int id, string status_pedido)
-        {
-            Context.Pedido.Find(id).id_status_ped_fk = Enum.Parse<PedidoStatus>(status_pedido);
-            Context.SaveChanges();
-        }
-
         public void AdicionaPedido(PedidoRequest pedidoRequest)
         {
             var pedido = new Pedido()
             {
-                id_mesa_fk = pedidoRequest.IdMesa, 
-                id_funcionario_fk = pedidoRequest.IdFuncionario, 
-                id_status_ped_fk = Enum.Parse<PedidoStatus>(pedidoRequest.StatusPedido), 
+                id_mesa_fk = pedidoRequest.IdMesa,
+                id_funcionario_fk = pedidoRequest.IdFuncionario,
+                id_status_ped_fk = Enum.Parse<PedidoStatus>("Aberto"),
                 data = DateTime.Now
             };
 
@@ -60,12 +58,40 @@ namespace Comanda_Eletronica.Repositories
                 {
                     id_produto_fk = i.IdProduto,
                     quantidade = i.Quantidade,
-                    valor = i.Valor
+                    valor = Context.Produto.Find(i.IdProduto).valor
                 }).ToList();
 
             Context.Pedido.Add(pedido);
 
             Context.SaveChanges();
         }
+        public void AdicionaItem(ItemRequest itemRequest, int idPedido)
+        {
+            var item = new Item()
+            {
+                id_produto_fk = itemRequest.IdProduto,
+                quantidade = itemRequest.Quantidade,
+                valor = Context.Produto.Find(itemRequest.IdProduto).valor,
+                id_pedido_fk = idPedido
+            };
+
+            Context.Item.Add(item);
+            Context.SaveChanges();
+        }
+
+        public void EnviaPedido(int id)
+        {
+            Context.Pedido.Find(id).id_status_ped_fk = Enum.Parse<PedidoStatus>("Preparando");
+            Context.SaveChanges();
+        }
+
+        public void EncerraPedido(int id)
+        {
+            var pedido = Context.Pedido.Find(id);
+            pedido.id_status_ped_fk = Enum.Parse<PedidoStatus>("Concluido");
+            Context.Mesa.Find(pedido.id_mesa_fk).id_status_fk = Enum.Parse<MesaStatus>("Livre");
+            Context.SaveChanges();
+        }
+
     }
 }
