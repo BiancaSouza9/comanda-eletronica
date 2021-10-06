@@ -21,7 +21,7 @@ namespace Comanda_Eletronica.Controllers
             Repository = repository;
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult BuscaProduto([FromBody] ProdutoRequest produto)
         {
             return Ok(Repository.BuscaProduto(produto.Categoria));
@@ -32,6 +32,8 @@ namespace Comanda_Eletronica.Controllers
         {
             return Ok (Repository.BuscaMesasLivres());
         }
+
+        [HttpGet]
         public IActionResult BuscaMesasOcupadas()
         {
             return Ok(Repository.BuscaMesasOcupadas());
