@@ -33,16 +33,20 @@ namespace Comanda_Eletronica
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Comanda Eletronica", Version = PlatformServices.Default.Application.ApplicationVersion });            
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Comanda Eletronica", Version = PlatformServices.Default.Application.ApplicationVersion });
             });
 
             services.AddControllers();
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<ILoginRepository, LoginRepository>();            
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
 

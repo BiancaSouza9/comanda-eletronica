@@ -3,6 +3,7 @@ using Comanda_Eletronica.Entities;
 using Comanda_Eletronica.Entities.Enums;
 using Comanda_Eletronica.Models;
 using Comanda_Eletronica.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +42,12 @@ namespace Comanda_Eletronica.Repositories
 
         public Pedido BuscaPedido(int mesa)
         {
-            return Context.Pedido.Where(p => p.id_mesa_fk == mesa && (p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Aberto") || p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Preparando"))).FirstOrDefault();
+            return Context.Pedido.Where(p => p.id_mesa_fk == mesa 
+                && (p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Aberto") 
+                || p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Preparando")))
+                .Include(p => p.itens).FirstOrDefault();
         }
+
         public void AdicionaPedido(PedidoRequest pedidoRequest)
         {
             var pedido = new Pedido()
@@ -65,6 +70,7 @@ namespace Comanda_Eletronica.Repositories
 
             Context.SaveChanges();
         }
+
         public void AdicionaItem(ItemRequest itemRequest, int idPedido)
         {
             var item = new Item()

@@ -12,7 +12,7 @@ namespace Comanda_Eletronica.Repositories.Interfaces
         List<Mesa> BuscaMesasLivres();
         List<Mesa> BuscaMesasOcupadas();
         void AlteraStatusMesa(int id);
-        Pedido BuscaPedido(int id);
+        Pedido BuscaPedido(int mesa);
         void AdicionaPedido(PedidoRequest pedidoRequest);
         void AdicionaItem(ItemRequest itemRequest, int idPedido);
         void EnviaPedido(int id);
