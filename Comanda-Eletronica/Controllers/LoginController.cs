@@ -26,7 +26,9 @@ namespace Comanda_Eletronica.Controllers
 
             if (retorno != null)
             {
-                return Ok("Login OK");
+                int funcionarioId = retorno.id_funcionario_pk;
+
+                return Ok(new { Mensagem = "Login Realizado com Sucesso ", FuncionarioId = funcionarioId });
             }
             else
             {

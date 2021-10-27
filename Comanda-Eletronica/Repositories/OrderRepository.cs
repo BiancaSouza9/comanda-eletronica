@@ -29,6 +29,24 @@ namespace Comanda_Eletronica.Repositories
             return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Livre)).ToList();
         }
 
+        public int CriaPedido(int idMesa, PedidoRequest pedidoRequest)
+        {
+            var pedido = new Pedido()
+            {
+                id_mesa_fk = idMesa,
+                id_funcionario_fk = pedidoRequest.IdFuncionario,
+                id_status_ped_fk = Enum.Parse<PedidoStatus>("Aberto"),
+                data = DateTime.Now
+            };
+
+            Context.Mesa.Find(idMesa).id_status_fk = Enum.Parse<MesaStatus>("Ocupado");
+            Context.Pedido.Add(pedido);
+            Context.SaveChanges();
+
+            return pedido.id_pedido_pk;
+
+        }
+
         public List<Mesa> BuscaMesasOcupadas()
         {
             return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Ocupado)).ToList();
@@ -42,33 +60,16 @@ namespace Comanda_Eletronica.Repositories
 
         public Pedido BuscaPedido(int mesa)
         {
-            return Context.Pedido.Where(p => p.id_mesa_fk == mesa 
-                && (p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Aberto") 
-                || p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Preparando")))
-                .Include(p => p.itens).FirstOrDefault();
-        }
+            var pedido = Context.Pedido
+            .Where(p => p.id_mesa_fk == mesa
+                && (p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Aberto") || 
+                    p.id_status_ped_fk == Enum.Parse<PedidoStatus>("Preparando"))
+                   )
+            .Include(p => p.itens)
+                .ThenInclude(x => x.produto)
+            .FirstOrDefault();
 
-        public void AdicionaPedido(PedidoRequest pedidoRequest)
-        {
-            var pedido = new Pedido()
-            {
-                id_mesa_fk = pedidoRequest.IdMesa,
-                id_funcionario_fk = pedidoRequest.IdFuncionario,
-                id_status_ped_fk = Enum.Parse<PedidoStatus>("Aberto"),
-                data = DateTime.Now
-            };
-
-            pedido.itens = pedidoRequest.Itens.Select(i =>
-                new Item()
-                {
-                    id_produto_fk = i.IdProduto,
-                    quantidade = i.Quantidade,
-                    valor = Context.Produto.Find(i.IdProduto).valor
-                }).ToList();
-
-            Context.Pedido.Add(pedido);
-
-            Context.SaveChanges();
+            return pedido;
         }
 
         public void AdicionaItem(ItemRequest itemRequest, int idPedido)

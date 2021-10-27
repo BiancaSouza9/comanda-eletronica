@@ -3,6 +3,7 @@ using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace Comanda_Eletronica.Controllers
 {
@@ -40,6 +41,13 @@ namespace Comanda_Eletronica.Controllers
         }
 
         [HttpPost]
+        public IActionResult CriaPedido([FromBody] PedidoRequest pedidoRequest)
+        {
+            int novoPedidoId = Repository.CriaPedido(pedidoRequest.IdMesa, pedidoRequest);
+            return Ok( new { Mensagem = "Pedido Criado com Sucesso. ", PedidoId = novoPedidoId } );
+        }
+
+        [HttpPost]
         public IActionResult AlteraStatusMesa([FromBody] MesaRequest mesa)
         {
             Repository.AlteraStatusMesa(mesa.IdMesa);
@@ -50,14 +58,27 @@ namespace Comanda_Eletronica.Controllers
         public IActionResult BuscaPedido([FromBody] PedidoRequest pedido)
         {
             var retorno = Repository.BuscaPedido(pedido.IdMesa);
-            return Ok(retorno);
-        }
+            var itensResponse = retorno.itens.Select(i => new ItemResponse()
+            {
+                id_item_pk = i.id_item_pk,
+                id_pedido_fk = i.id_pedido_fk,
+                id_produto_fk = i.id_produto_fk,
+                quantidade = i.quantidade,
+                valor = i.valor,
+                nomeProduto = i.produto.produto
+            });
+            var pedidoResponse = new PedidoResponse()
+            {
+                id_pedido_pk = retorno.id_pedido_pk,
+                data = retorno.data,
+                id_funcionario_fk = retorno.id_funcionario_fk,
+                id_mesa_fk = retorno.id_mesa_fk,
+                id_status_ped_fk = retorno.id_status_ped_fk,
+                itens = itensResponse.ToList()
+            };
+            int pedidoId = retorno.id_pedido_pk;
 
-        [HttpPost]
-        public IActionResult AdicionaPedido([FromBody] PedidoRequest pedido)
-        {
-            Repository.AdicionaPedido(pedido);
-            return Ok("Pedido Adicionado com Sucesso");
+            return Ok(new { Mensagem = "Pedido Encontrado. ", PedidoId = pedidoId, pedidoResponse });
         }
 
         [HttpPost]
