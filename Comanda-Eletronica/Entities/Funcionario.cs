@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Comanda_Eletronica.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Comanda_Eletronica.Entities
         public string nome { get; set; }
         public string usuario { get; set; }
         public string senha { get; set; }
-        public int id_modulo_fk { get; set; }
+        public Modulo? id_modulo_fk { get; set; }
+        public string email { get; set; }
     }
 }

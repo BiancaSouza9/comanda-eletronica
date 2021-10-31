@@ -39,6 +39,9 @@ namespace Comanda_Eletronica
             services.AddControllers();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<IAdmProductRepository, AdmProductRepository>();
+            services.AddScoped<IAdmTableRepository, AdmTableRepository>();
+            services.AddScoped<IAdmEmployeeRepository, AdmEmployeeRepository>();
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>

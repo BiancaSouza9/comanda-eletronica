@@ -8,7 +8,6 @@ using System.Linq;
 namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
-    //[Route("[controller]/[action]")]
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
     {
