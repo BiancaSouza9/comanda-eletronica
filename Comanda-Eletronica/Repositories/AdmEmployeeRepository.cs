@@ -123,15 +123,15 @@ namespace Comanda_Eletronica.Repositories
 
             MailMessage mail = new MailMessage()
             {
-                Sender = new System.Net.Mail.MailAddress("soares.bianca.sv@gmail.com", "ENVIADOR"),
-                From = new MailAddress("soares.bianca.sv@gmail.com", "ENVIADOR"),
+                Sender = new System.Net.Mail.MailAddress("soares.bianca.sv@gmail.com", "Comanda Eletronica APP"),
+                From = new MailAddress("soares.bianca.sv@gmail.com", "Comanda Eletronica APP"),
                 Subject = "Senha",
-                Body = nome + ", \n \n Sua senha para acessar o APP Comanda Eletronica é: <b>" + senha,
+                Body = nome + ",  \r\n \r\n Sua senha para acessar o APP Comanda Eletronica é: <b>" + senha,
                 IsBodyHtml = true,
                 Priority = MailPriority.High
             };            
 
-            mail.To.Add(new MailAddress(email, "RECEBEDOR"));
+            mail.To.Add(new MailAddress(email, nome));
             
             client.Send(mail);
         }
