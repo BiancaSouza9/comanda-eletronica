@@ -1,4 +1,5 @@
-﻿using Comanda_Eletronica.Models;
+﻿using Comanda_Eletronica.Entities;
+using Comanda_Eletronica.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Comanda_Eletronica.Repositories.Interfaces
         void RemoveFuncionario(FuncionarioRequest funcionarioRequest);
         void AlteraFuncionario(FuncionarioRequest funcionarioRequest);
         void ResetSenha(FuncionarioRequest funcionarioRequest);
+        List<Funcionario> BuscaFuncionarios();
     }
 }

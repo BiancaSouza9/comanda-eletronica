@@ -20,13 +20,38 @@ namespace Comanda_Eletronica.Repositories
         }
         public void CriaFuncionario(FuncionarioRequest funcionarioRequest)
         {
+            string user = null;
+
+            if (funcionarioRequest.Nome.Trim().IndexOf(" ") > -1)
+            {
+                user = funcionarioRequest.Nome.Trim().Replace(" ", ".");
+            }
+
+            var usuarioExistente = Context.Funcionario.Where(p => p.usuario.Contains(user)).OrderBy(p => p.usuario).ToList();
+
+            if (usuarioExistente.Count() > 0)
+            {
+                string usuarioLista = null;
+                string usuarioApoio = user;
+                for (int i = 0; i < usuarioExistente.Count(); i++)
+                {
+                    usuarioLista = usuarioExistente[i].usuario.ToString();
+                    if (usuarioLista.Equals(usuarioApoio))
+                    {
+                        usuarioApoio = (user + (i + 1)).ToString();
+                    }
+                }
+                user = usuarioApoio;
+            }
+
             var funcionario = new Funcionario()
             {
                 nome = funcionarioRequest.Nome,
-                usuario = funcionarioRequest.Usuario,
+                usuario = user,
                 email = funcionarioRequest.Email,
-                senha = GeraSenha()
-            };
+                senha = GeraSenha(),
+                status = Enum.Parse<Status>("Ativo")
+        };
             Context.Funcionario.Add(funcionario);
             Context.SaveChanges();
 
@@ -36,7 +61,9 @@ namespace Comanda_Eletronica.Repositories
         public void RemoveFuncionario(FuncionarioRequest funcionarioRequest)
         {
             var funcionario = Context.Funcionario.Find(funcionarioRequest.IdFuncionario);
-            Context.Funcionario.Remove(funcionario);
+
+                funcionario.status = Enum.Parse<Status>("Inativo");
+
             Context.SaveChanges();
         }
 
@@ -64,9 +91,17 @@ namespace Comanda_Eletronica.Repositories
                 funcionario.senha = funcionarioRequest.Senha;
             }
 
-            Context.SaveChanges();
+            if (!string.IsNullOrEmpty(funcionarioRequest.Email))
+            {
+                funcionario.email = funcionarioRequest.Email;
+            }
 
-            EnviarEmail(funcionario.senha, funcionario.email, funcionario.nome);
+            if (!string.IsNullOrEmpty(funcionarioRequest.Status))
+            {
+                funcionario.status = Enum.Parse<Status>("Ativo");
+            }
+
+            Context.SaveChanges();
         }
 
         public void ResetSenha(FuncionarioRequest funcionarioRequest)
@@ -89,11 +124,16 @@ namespace Comanda_Eletronica.Repositories
             if (!string.IsNullOrEmpty(funcionarioRequest.IdModulo))
             {
                 funcionario.id_modulo_fk = Enum.Parse<Modulo>(funcionarioRequest.IdModulo);
-            }            
+            }
 
             Context.SaveChanges();
 
             EnviarEmail(funcionario.senha, funcionario.email, funcionario.nome);
+        }
+
+        public List<Funcionario> BuscaFuncionarios()
+        {
+            return Context.Funcionario.Where(f => f.status.Equals(Status.Ativo)).ToList();
         }
 
         public string GeraSenha()
@@ -129,10 +169,10 @@ namespace Comanda_Eletronica.Repositories
                 Body = nome + ",  \r\n \r\n Sua senha para acessar o APP Comanda Eletronica é: <b>" + senha,
                 IsBodyHtml = true,
                 Priority = MailPriority.High
-            };            
+            };
 
             mail.To.Add(new MailAddress(email, nome));
-            
+
             client.Send(mail);
         }
     }

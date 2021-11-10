@@ -16,5 +16,6 @@ namespace Comanda_Eletronica.Entities
         public string senha { get; set; }
         public Modulo? id_modulo_fk { get; set; }
         public string email { get; set; }
+        public Status status { get; set; }
     }
 }

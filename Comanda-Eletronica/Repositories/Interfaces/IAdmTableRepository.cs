@@ -1,4 +1,5 @@
-﻿using Comanda_Eletronica.Models;
+﻿using Comanda_Eletronica.Entities;
+using Comanda_Eletronica.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Comanda_Eletronica.Repositories.Interfaces
     {
         void AdicionaMesa(int quantidade);
         void RemoveMesa(MesaRequest mesaRequest);
+        List<Mesa> BuscaMesas();
     }
 }

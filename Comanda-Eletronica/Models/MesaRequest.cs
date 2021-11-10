@@ -12,5 +12,6 @@ namespace Comanda_Eletronica.Models
         public string IdStatus { get; set; }
         public int Pessoas { get; set; }
         public int Quantidade { get; set; }
+        public string Status { get; set; }
     }
 }

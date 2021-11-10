@@ -21,7 +21,8 @@ namespace Comanda_Eletronica.Repositories
             {
                 id_categoria_fk = Enum.Parse <Categoria> (produtoRequest.Categoria),
                 produto = produtoRequest.Produto,
-                valor = produtoRequest.Valor
+                valor = produtoRequest.Valor,
+                status = Enum.Parse<Status>("Ativo")
             };
             Context.Produto.Add(produto);
             Context.SaveChanges();
@@ -29,8 +30,10 @@ namespace Comanda_Eletronica.Repositories
 
         public void RemoveProduto(ProdutoRequest produtoRequest)
         {
-            var produto = Context.Produto.Find(produtoRequest.IdProduto);
-            Context.Produto.Remove(produto);
+            var produto = Context.Produto.Find(produtoRequest.IdProduto);                      
+            
+            produto.status = Enum.Parse<Status>("Inativo");            
+
             Context.SaveChanges();
         }
 
@@ -52,7 +55,12 @@ namespace Comanda_Eletronica.Repositories
             {
                 produto.id_categoria_fk = Enum.Parse<Categoria>(produtoRequest.Categoria);
             }
-            
+
+            if (!string.IsNullOrEmpty(produtoRequest.Status))
+            {
+                produto.status = Enum.Parse<Status>("Ativo");
+            }
+
             Context.SaveChanges();
         }
     }

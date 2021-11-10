@@ -36,5 +36,11 @@ namespace Comanda_Eletronica.Controllers
             Repository.RemoveMesa(mesa);
             return Ok("Mesa Removida com Sucesso");
         }
+
+        [HttpGet]
+        public IActionResult BuscaMesas()
+        {
+            return Ok(Repository.BuscaMesas());
+        }
     }
 }

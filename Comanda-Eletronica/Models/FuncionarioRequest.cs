@@ -13,5 +13,6 @@ namespace Comanda_Eletronica.Models
         public string Senha { get; set; }
         public string IdModulo { get; set; }
         public string Email { get; set; }
+        public string Status { get; set; }
     }
 }

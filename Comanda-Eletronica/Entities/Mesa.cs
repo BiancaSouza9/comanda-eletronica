@@ -13,5 +13,6 @@ namespace Comanda_Eletronica.Entities
         public int id_mesa_pk { get; set; }
         public MesaStatus id_status_fk { get; set; }
         public byte pessoas { get; set; }
+        public Status status { get; set; }
     }
 }

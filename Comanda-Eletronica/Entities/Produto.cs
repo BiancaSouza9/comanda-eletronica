@@ -14,5 +14,6 @@ namespace Comanda_Eletronica.Entities
         public string produto { get; set; }
         public Categoria id_categoria_fk { get; set; }
         public decimal valor { get; set; }
+        public Status status { get; set; }
     }
 }

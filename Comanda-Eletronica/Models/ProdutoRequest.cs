@@ -11,5 +11,6 @@ namespace Comanda_Eletronica.Models
         public string Produto { get; set; }
         public string Categoria { get; set; }
         public decimal Valor { get; set; }
+        public string Status { get; set; }
     }
 }

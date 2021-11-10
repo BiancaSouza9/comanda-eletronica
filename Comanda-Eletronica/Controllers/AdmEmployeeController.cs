@@ -46,5 +46,10 @@ namespace Comanda_Eletronica.Controllers
             Repository.ResetSenha(funcionario);
             return Ok("Nova Senha Gerada com Sucesso");
         }
+        [HttpGet]
+        public IActionResult BuscaFuncionarios()
+        {
+            return Ok(Repository.BuscaFuncionarios());
+        }
     }    
 }

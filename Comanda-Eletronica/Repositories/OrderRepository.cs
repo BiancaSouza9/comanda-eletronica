@@ -21,12 +21,14 @@ namespace Comanda_Eletronica.Repositories
 
         public List<Produto> BuscaProduto(string categoria)
         {
-            return Context.Produto.Where(p => p.id_categoria_fk == Enum.Parse <Categoria> (categoria)).ToList();
+            return Context.Produto.Where(p => p.id_categoria_fk == Enum.Parse <Categoria> (categoria) 
+            && p.status.Equals(Status.Ativo)).ToList();
         }
 
         public List<Mesa> BuscaMesasLivres()
         {
-            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Livre)).ToList();
+            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Livre)
+            && p.status.Equals(Status.Ativo)).ToList();
         }
 
         public int CriaPedido(int idMesa, PedidoRequest pedidoRequest)
@@ -49,7 +51,8 @@ namespace Comanda_Eletronica.Repositories
 
         public List<Mesa> BuscaMesasOcupadas()
         {
-            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Ocupado)).ToList();
+            return Context.Mesa.Where(p => p.id_status_fk.Equals(MesaStatus.Ocupado)
+            && p.status.Equals(Status.Ativo)).ToList();
         }
 
         public void AlteraStatusMesa(int id)
