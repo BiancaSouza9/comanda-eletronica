@@ -1,5 +1,6 @@
 ﻿using Comanda_Eletronica.Models;
 using Comanda_Eletronica.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -7,6 +8,7 @@ namespace Comanda_Eletronica.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class AdmEmployeeController : ControllerBase
     {
         private IAdmEmployeeRepository Repository;

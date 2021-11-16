@@ -8,6 +8,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Comanda_Eletronica.Repositories;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
+using System;
+using System.Linq;
+using Comanda_Eletronica.Handlers;
+using Microsoft.AspNetCore.Authentication;
+using Comanda_Eletronica.Services;
+using Comanda_Eletronica.Services.Interfaces;
 
 namespace Comanda_Eletronica
 {
@@ -33,7 +43,33 @@ namespace Comanda_Eletronica
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Comanda Eletronica", Version = PlatformServices.Default.Application.ApplicationVersion });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Comanda Eletronica",
+                    Version = PlatformServices.Default.Application.ApplicationVersion
+                });
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
             });
 
             services.AddControllers();
@@ -42,14 +78,16 @@ namespace Comanda_Eletronica
             services.AddScoped<IAdmProductRepository, AdmProductRepository>();
             services.AddScoped<IAdmTableRepository, AdmTableRepository>();
             services.AddScoped<IAdmEmployeeRepository, AdmEmployeeRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddRazorPages();
 
             services.AddDbContext<ComandaEletronicaContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
-            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
 
 
@@ -66,6 +104,7 @@ namespace Comanda_Eletronica
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseSwagger();
 
@@ -79,6 +118,5 @@ namespace Comanda_Eletronica
                 endpoints.MapControllers();
             });
         }
-
     }
 }
