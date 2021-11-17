@@ -44,7 +44,7 @@ namespace Comanda_Eletronica.Repositories
         }
         public List<Mesa> BuscaMesas()
         {
-            return Context.Mesa.ToList();
+            return Context.Mesa.Where(m => m.status.Equals(Status.Ativo)).ToList();
         }
 
         public int PegarUltimoId()

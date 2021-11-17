@@ -8,7 +8,7 @@ namespace Comanda_Eletronica.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AdmEmployeeController : ControllerBase
     {
         private IAdmEmployeeRepository Repository;

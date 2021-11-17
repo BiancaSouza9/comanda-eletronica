@@ -106,25 +106,25 @@ namespace Comanda_Eletronica.Repositories
 
         public void ResetSenha(FuncionarioRequest funcionarioRequest)
         {
-            var funcionario = Context.Funcionario.Find(funcionarioRequest.IdFuncionario);
+            var funcionario = Context.Funcionario.Where(f => f.usuario.Equals(funcionarioRequest.Usuario)).FirstOrDefault();
             {
                 funcionario.senha = GeraSenha();
             }
 
-            if (!string.IsNullOrEmpty(funcionarioRequest.Nome))
-            {
-                funcionario.nome = funcionarioRequest.Nome;
-            }
+            //if (!string.IsNullOrEmpty(funcionarioRequest.Nome))
+            //{
+            //    funcionario.nome = funcionarioRequest.Nome;
+            //}
 
-            if (!string.IsNullOrEmpty(funcionarioRequest.Usuario))
-            {
-                funcionario.usuario = funcionarioRequest.Usuario;
-            }
+            //if (!string.IsNullOrEmpty(funcionarioRequest.Usuario))
+            //{
+            //    funcionario.usuario = funcionarioRequest.Usuario;
+            //}
 
-            if (!string.IsNullOrEmpty(funcionarioRequest.IdModulo))
-            {
-                funcionario.id_modulo_fk = Enum.Parse<Modulo>(funcionarioRequest.IdModulo);
-            }
+            //if (!string.IsNullOrEmpty(funcionarioRequest.IdModulo))
+            //{
+            //    funcionario.id_modulo_fk = Enum.Parse<Modulo>(funcionarioRequest.IdModulo);
+            //}
 
             Context.SaveChanges();
 
