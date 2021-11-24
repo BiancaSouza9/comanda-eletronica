@@ -1,4 +1,5 @@
-﻿using Comanda_Eletronica.Models;
+﻿using Comanda_Eletronica.Filters;
+using Comanda_Eletronica.Models;
 using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
+    [ApiKeyAuth]
     [Route("[controller]/[action]")]
     public class AdmProductController : ControllerBase
     {

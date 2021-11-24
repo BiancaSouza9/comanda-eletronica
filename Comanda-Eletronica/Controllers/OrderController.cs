@@ -10,7 +10,7 @@ using System.Linq;
 namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
-    //[ApiKeyAuth]
+    [ApiKeyAuth]
     //[Authorize]
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
