@@ -1,17 +1,20 @@
-﻿using Comanda_Eletronica.Filters;
+﻿using AutoMapper;
+using Comanda_Eletronica.Entities;
+using Comanda_Eletronica.Filters;
 using Comanda_Eletronica.Models;
 using Comanda_Eletronica.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Comanda_Eletronica.Controllers
 {
     [ApiController]
     [ApiKeyAuth]
-    //[Authorize]
     [Route("[controller]/[action]")]
     public class OrderController : ControllerBase
     {
@@ -34,7 +37,11 @@ namespace Comanda_Eletronica.Controllers
         [HttpPost]
         public IActionResult BuscaProduto([FromBody] ProdutoRequest produto)
         {
-            return Ok(Repository.BuscaProduto(produto.Categoria));
+            var prod = Repository.BuscaProduto(produto.Categoria);
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Produto, ProdutoResponse>());
+
+            return Ok(new Mapper(config).Map<List<Produto>, List<ProdutoResponse>>(prod)) ;
         }
 
         [HttpGet]
@@ -83,8 +90,9 @@ namespace Comanda_Eletronica.Controllers
                 id_funcionario_fk = retorno.id_funcionario_fk,
                 id_mesa_fk = retorno.id_mesa_fk,
                 id_status_ped_fk = retorno.id_status_ped_fk,
-                itens = itensResponse.ToList()
-            };
+                itens = itensResponse.ToList(),
+                total = itensResponse.Sum(x => x.valor)
+            };            
             int pedidoId = retorno.id_pedido_pk;
 
             return Ok(new { Mensagem = "Pedido Encontrado. ", PedidoId = pedidoId, pedidoResponse });

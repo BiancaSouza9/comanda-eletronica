@@ -1,4 +1,6 @@
 ﻿using Comanda_Eletronica.Entities.Enums;
+using Comanda_Eletronica.Util;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,9 @@ namespace Comanda_Eletronica.Models
         public PedidoStatus id_status_ped_fk { get; set; }
         public DateTime data { get; set; }
         public List<ItemResponse> itens { get; set; }
+
+        [JsonConverter(typeof(DecimalConverter))]
+        public decimal total { get; set; }
     }
 
     public class ItemResponse
@@ -22,6 +27,8 @@ namespace Comanda_Eletronica.Models
         public int id_pedido_fk { get; set; }
         public int id_produto_fk { get; set; }
         public int quantidade { get; set; }
+
+        [JsonConverter(typeof(DecimalConverter))]
         public decimal valor { get; set; }
         public string nomeProduto { get; set; }
     }

@@ -19,17 +19,14 @@ namespace Comanda_Eletronica.Repositories
 
         public void AdicionaMesa(int quantidade)
         {
-            int id = PegarUltimoId() + 1;
+            int id = PegarUltimoId();
 
             for (int i = 0; i < quantidade; i ++)
-            {                  
-                var mesa = new Mesa()
-                {
-                    id_mesa_pk = id,
-                    id_status_fk = Enum.Parse<MesaStatus>("Livre"),
-                    status = Enum.Parse<Status>("Ativo")
-                };
-                Context.Mesa.Add(mesa);
+            {
+                var mesa = Context.Mesa.Find(id);
+                mesa.id_status_fk = Enum.Parse<MesaStatus>("Livre");
+                mesa.status = Enum.Parse<Status>("Ativo");
+                Context.Mesa.Update(mesa);
                 id++;
             }
             Context.SaveChanges();
@@ -49,7 +46,8 @@ namespace Comanda_Eletronica.Repositories
 
         public int PegarUltimoId()
         {
-            return Context.Mesa.OrderByDescending(x => x.id_mesa_pk).FirstOrDefault().id_mesa_pk;        
+            return Context.Mesa.Where(x => x.status.Equals(Enum.Parse<Status>("Inativo")))
+                .OrderBy(x => x.id_mesa_pk).FirstOrDefault().id_mesa_pk;   
         }
     }
 }
